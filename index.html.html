@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeeWeiPOWER | 理維電能 - 工業能源進化</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #39FF14; --bg: #050505; --card: #141414; --text: #ffffff; --dim: #b0b0b0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Noto Sans TC', sans-serif; overflow-x: hidden; line-height: 1.6; }
+        
+        /* 導覽列 */
+        nav { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(0,0,0,0.9); display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; border-bottom: 1px solid rgba(57,255,20,0.3); backdrop-filter: blur(10px); }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--primary); }
+        .nav-links a { color: #fff; text-decoration: none; margin-left: 20px; font-size: 0.9rem; transition: 0.3s; font-weight: 300; }
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        .lang-s { background: #222; color: #fff; border: 1px solid var(--primary); padding: 5px; border-radius: 4px; margin-left: 15px; cursor: pointer; }
+
+        /* Hero */
+        .hero { height: 95vh; display: flex; align-items: center; justify-content: center; position: relative; text-align: center; }
+        .hero video { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; z-index: -1; filter: brightness(0.35); }
+        .hero h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 8vw, 4rem); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 5px; }
+        .hero p { font-size: clamp(1rem, 4vw, 1.5rem); color: var(--primary); font-weight: 300; }
+
+        /* 通用區塊樣式 */
+        section { padding: 120px 10%; border-bottom: 1px solid #111; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        h2 { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: var(--primary); margin-bottom: 50px; border-left: 6px solid var(--primary); padding-left: 20px; }
+
+        /* 公司介紹 */
+        .about-card { background: linear-gradient(135deg, #1a1a1a 0%, #000 100%); padding: 50px; border-radius: 20px; border: 1px solid #333; }
+        .about-card h3 { color: var(--primary); margin-bottom: 20px; font-size: 1.5rem; }
+
+        /* 產品詳情 */
+        .p-flex { display: flex; gap: 60px; flex-wrap: wrap; align-items: center; margin-top: 50px; }
+        .p-img-box { flex: 1; min-width: 320px; border-radius: 20px; overflow: hidden; box-shadow: 0 0 40px rgba(57,255,20,0.15); border: 1px solid #333; }
+        .p-img-box img { width: 100%; display: block; }
+        .p-info { flex: 1.5; min-width: 320px; }
+        .p-info h3 { font-size: 2rem; margin-bottom: 20px; color: var(--primary); }
+        
+        /* 規格表格 */
+        .spec-t { width: 100%; border-collapse: collapse; margin-top: 25px; font-size: 0.95rem; }
+        .spec-t th { text-align: left; color: var(--primary); padding: 12px; border-bottom: 2px solid #333; font-weight: 700; }
+        .spec-t td { padding: 12px; border-bottom: 1px solid #222; color: var(--dim); }
+
+        /* 充電器亮點列表 */
+        .feat-l { list-style: none; margin-top: 20px; }
+        .feat-l li { margin-bottom: 15px; padding-left: 35px; position: relative; color: var(--dim); }
+        .feat-l li::before { content: "⚡"; position: absolute; left: 0; color: var(--primary); }
+
+        /* 影片 */
+        .v-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 25px; overflow: hidden; border: 2px solid #333; box-shadow: 0 0 50px rgba(0,0,0,1); }
+        .v-container video { position: absolute; top:0; left:0; width:100%; height:100%; }
+
+        /* 聯繫區 */
+        .contact { background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('bg-contact.jpg'); background-size: cover; background-attachment: fixed; text-align: center; border-radius: 50px 50px 0 0; }
+        .c-card { background: rgba(20,20,20,0.9); padding: 50px; border-radius: 30px; max-width: 700px; margin: 40px auto; border: 1px solid var(--primary); }
+
+        footer { padding: 50px; text-align: center; border-top: 1px solid #222; font-size: 0.85rem; color: #444; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">LeeWeiPOWER</div>
+    <div class="nav-links">
+        <a href="#about" id="n-1">Company</a>
+        <a href="#products" id="n-2">Products</a>
+        <a href="#video" id="n-3">Showcase</a>
+        <a href="#contact" id="n-4">Contact</a>
+        <select class="lang-s" onchange="applyLang(this.value)">
+            <option value="en">English (Default)</option>
+            <option value="zh">繁體中文</option>
+            <option value="de">Deutsch</option>
+            <option value="fr">Français</option>
+            <option value="jp">日本語</option>
+            <option value="es">Español</option>
+            <option value="pt">Português</option>
+            <option value="it">Italiano</option>
+        </select>
+    </div>
+</nav>
+
+<header class="hero">
+    <video autoplay muted loop playsinline><source src="video.mp4" type="video/mp4"></video>
+    <div class="hero-content">
+        <h1 id="h-1">Beyond Power</h1>
+        <p id="h-2">Stable. Efficient. Relentless Industrial Innovation.</p>
+    </div>
+</header>
+
+<section id="about" class="reveal">
+    <h2 id="a-t">Our Identity</h2>
+    <div class="about-card">
+        <h3 id="a-h">Reliability is our DNA</h3>
+        <p id="a-p1" style="font-size: 1.1rem; color: var(--dim); margin-bottom: 20px;">理維電能 (LeeWeiPOWER) don't just build batteries; we manufacture "Peace of Mind".</p>
+        <p id="a-p2">Based in Taiwan, we specialize in durable, reliable industrial battery solutions. Our goal is to save you time and money, allowing you to focus on your core business while we handle the power back-end.</p>
+    </div>
+</section>
+
+<section id="products" class="reveal">
+    <h2 id="p-t">Technical Solutions</h2>
+    
+    <div class="p-flex">
+        <div class="p-img-box"><img src="battery.jpg" alt="BP3400A"></div>
+        <div class="p-info">
+            <h3 id="p1-n">BP3400A Titanium Battery</h3>
+            <p id="p1-d" style="color: var(--dim);">The ultimate solution for industrial remotes. Built for those who hate waiting and demand safety.</p>
+            <table class="spec-t">
+                <thead>
+                    <tr><th id="th-1">Feature</th><th id="th-2">Description</th><th id="th-3">Benefit</th></tr>
+                </thead>
+                <tbody id="p1-tb"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="p-flex" style="flex-direction: row-reverse; margin-top: 100px;">
+        <div class="p-img-box"><img src="charger.jpg" alt="BC2435A"></div>
+        <div class="p-info">
+            <h3 id="p2-n">BC2435A Smart Charger</h3>
+            <p id="p2-d" style="color: var(--dim);">Simple, robust, and built for the industrial frontline. Stable power in any environment.</p>
+            <ul class="feat-l" id="p2-l"></ul>
+        </div>
+    </div>
+</section>
+
+<section id="video" class="reveal">
+    <h2 id="v-t">Power Showcase</h2>
+    <div class="v-container">
+        <video controls><source src="video.mp4" type="video/mp4"></video>
+    </div>
+</section>
+
+<section id="contact" class="contact reveal">
+    <h2 id="c-t" style="border:none; text-align:center;">CONNECT WITH US</h2>
+    <p id="c-s" style="margin-bottom: 20px; color: var(--primary);">Choosing LeeWei is choosing a partner in efficiency.</p>
+    <div class="c-card">
+        <p><strong>Website:</strong> leeweipower.com</p>
+        <p id="c-n"><strong>Company:</strong> LeeWeiPOWER Co., Ltd.</p>
+        <p id="c-l"><strong>Origin:</strong> Proudly Made in Taiwan</p>
+    </div>
+</section>
+
+<footer>
+    &copy; 2025 LeeWeiPOWER Co., Ltd. | Professional Analysis Skeleton | Humorous Heart.
+</footer>
+
+<script>
+    const dictionary = {
+        en: {
+            n:["Company","Products","Video","Contact"],
+            h:["BEYOND POWER","Stable. Saving. High Performance."],
+            a:["Our Identity","Reliability is our DNA","We don't just build batteries; we manufacture 'Peace of Mind'.","Based in Taiwan, we specialize in durable, reliable industrial solutions. We help businesses save costs and boost efficiency."],
+            pt:["Elite Solutions","BP3400A Titanium Battery","The ultimate solution for industrial remotes. Tougher than the job site.","BC2435A Smart Charger","Built for the industrial frontline. Simple and robust."],
+            th:["Feature","Description","Benefit"],
+            tb:[
+                ["Super Life","2-year unlimited warranty (up to 12)","Lower costs, rare replacements"],
+                ["Fast Charge","100% in 18 minutes","Quickly resume work, lasts 14 days"],
+                ["Long Standby","80% power after 6 months","Ready anytime, low self-discharge"],
+                ["Extreme Safety","No fire if crushed or drilled","Ensures safety, prevents risks"]
+            ],
+            cl:[
+                "Universal: USB Type-C (2A+) Power Supply",
+                "Robust: Vibration-proof for vehicle mounting",
+                "Smart: No need to unplug after full charge",
+                "Clear: LED status (Red flashing / Green steady)"
+            ],
+            ct:["READY TO ELEVATE?","Efficiency & Reliability.","LeeWeiPOWER Co., Ltd."]
+        },
+        zh: {
+            n:["公司介紹","產品資訊","影片專區","聯繫我們"],
+            h:["理維電能：工業能源革命","穩定、省錢、高效能"],
+            a:["我們的身份","可靠，是我們的 DNA","我們不只是製造電池，我們製造的是一份「安心感」。","理維電能致力於耐用可靠的工業電池方案，幫助企業節省成本。我們比你想像的更省心。"],
+            pt:["核心解決方案","BP3400A 可充電鈦電池","工業遙控器電池的終極解決方案。這顆電池可能比你還能熬夜。","BC2435A 智能充電器","簡單、穩固、為工業而生。"],
+            th:["特性","描述","效益 / 說明"],
+            tb:[
+                ["超長壽命","2年不限次數保固，可加購至12年","降低長期採購成本，極少更換"],
+                ["快速充電","18分鐘充滿電","快速恢復生產力，滿足約14天使用"],
+                ["長效待機","6個月仍有80%電量","隨時可用，減少自放電維護"],
+                ["高安全性","擠壓、短路、鑽孔不燃燒","確保作業安全，防止意外風險"]
+            ],
+            cl:[
+                "通用與方便：使用 2A 以上 USB Type-C 供電",
+                "穩固安裝：垂直或水平安裝，抗震環境適用",
+                "智能充電：充滿後無需拔電池，省去人工作業",
+                "狀態清晰：紅燈閃爍中 / 充滿綠燈恆亮"
+            ],
+            ct:["聯繫我們","選擇理維，提升您的事業效率","理維電能股份有限公司"]
+        },
+        de: {
+            n:["Unternehmen","Produkte","Video","Kontakt"],
+            h:["INDUSTRIE ENERGIE","Stabil. Sparend. Hochleistungsfähig."],
+            a:["Unsere Identität","Zuverlässigkeit ist unser Kern","Wir bauen keine Batterien, wir bauen Sorgenfreiheit.","Spezialisiert auf langlebige Industrielösungen aus Taiwan zur Kostenoptimierung."],
+            pt:["Elite-Lösungen","BP3400A Titan-Batterie","Die ultimative Lösung für Industrie-Fernbedienungen.","BC2435A Smart-Ladegerät","Robust und einfach für den harten Arbeitseinsatz."],
+            th:["Merkmal","Beschreibung","Vorteil"],
+            tb:[
+                ["Lebensdauer","2-12 Jahre Garantie","Geringere Kosten, seltener Austausch"],
+                ["Schnellladung","18 Minuten bis 100%","Schnelle Produktivität, 14 Tage Nutzung"],
+                ["Sicherheit","Kein Brand bei Beschädigung","Maximale Sicherheit am Arbeitsplatz"]
+            ],
+            cl:["USB Type-C (2A+) Anschluss","Vibrationsfest für Fahrzeuge","Intelligenter Ladestopp","LED-Status (Rot/Grün)"],
+            ct:["KONTAKTIEREN SIE UNS","Effizienz und Zuverlässigkeit.","LeeWeiPOWER Co., Ltd."]
+        },
+        fr: {
+            n:["Société","Produits","Vidéo","Contact"],
+            h:["RÉVOLUTION ÉNERGÉTIQUE","Stable. Économique. Performance."],
+            a:["Notre Identité","La fiabilité est notre ADN","Nous fabriquons la tranquillité d'esprit.","Expert en solutions durables basées à Taiwan pour booster votre efficacité."],
+            pt:["Solutions d'élite","Batterie Titane BP3400A","La solution ultime pour les télécommandes industrielles.","Chargeur Intelligent BC2435A","Conçu pour le front industriel. Robuste."],
+            th:["Caractéristique","Description","Avantage"],
+            tb:[
+                ["Longévité","Garantie jusqu'à 12 ans","Moins de remplacements, moins de frais"],
+                ["Charge Rapide","100% en 18 minutes","Productivité immédiate, dure 14 jours"],
+                ["Sécurité","Pas de feu si percé","Évite les risques d'accidents"]
+            ],
+            cl:["USB Type-C 2A+","Anti-vibration pour véhicules","Arrêt intelligent","Indicateurs LED clairs"],
+            ct:["CONTACTEZ-NOUS","L'efficacité sans compromis.","LeeWeiPOWER Co., Ltd."]
+        },
+        jp: {
+            n:["会社概要","製品紹介","動画","お問い合わせ"],
+            h:["工業用電池の革新","安定。節約。高性能。"],
+            a:["私たちのアイデンティティ","信頼は私たちのDNA","私たちは電池ではなく「安心」を製造しています。","台湾製の高品質な工業用電源でコスト削減と効率向上を実現します。"],
+            pt:["ソリューション","BP3400A チタン電池","工業用リモコンの最終解答。現場よりタフな設計。","BC2435A 充電器","工業の最前線のために。シンプルかつ堅牢。"],
+            th:["特性","説明","メリット"],
+            tb:[
+                ["超長寿命","最大12年の長期保証","調達コストの削減、交換不要"],
+                ["急速充電","18分でフル充電","14日間の連続稼働が可能"],
+                ["安全性","貫通しても発火しない","現場の安全を確保しリスク防止"]
+            ],
+            cl:["USB Type-C 2A+ 対応","車両設置用の防振設計","自動停止機能付き","クリアなLED状態表示"],
+            ct:["お問い合わせ","理維を選択し、効率を向上。","理維電能股份有限公司"]
+        },
+        es: {
+            n:["Empresa","Productos","Vídeo","Contacto"],
+            h:["ENERGÍA INDUSTRIAL","Estable. Ahorro. Eficiencia."],
+            a:["Identidad","Fiabilidad en nuestro ADN","No fabricamos baterías, fabricamos tranquilidad.","Desde Taiwán, optimizamos la productividad de su empresa con energía robusta."],
+            pt:["Soluciones Élite","Batería de Titanio BP3400A","La solución definitiva para mandos industriales.","Cargador BC2435A","Simple, robusto y listo para el campo."],
+            th:["Característica","Descripción","Beneficio"],
+            tb:[
+                ["Vida Útil","Garantía de hasta 12 años","Menos costes de compra"],
+                ["Carga Rápida","100% en 18 minutos","Productividad de 14 días"],
+                ["Seguridad","Sin fuego bajo impacto","Previene riesgos laborales"]
+            ],
+            cl:["USB Type-C 2A+","Montaje antivibración","Parada inteligente","Estados LED claros"],
+            ct:["CONTÁCTENOS","Elija eficiencia. Elija LeeWei.","LeeWeiPOWER Co., Ltd."]
+        },
+        pt: {
+            n:["Empresa","Produtos","Vídeo","Contato"],
+            h:["REVOLUÇÃO INDUSTRIAL","Estável. Poupança. Eficiência."],
+            a:["Identidade","Confiabilidade no DNA","Fabricamos paz de espírito para sua empresa.","Soluções industriais de Taiwan para reduzir custos de manutenção."],
+            pt:["Soluções Elite","Bateria de Titânio BP3400A","A solução definitiva para comandos industriais.","Carregador BC2435A","Robusto e estável para frotas industriais."],
+            th:["Característica","Descrição","Benefício"],
+            tb:[
+                ["Longevidade","Até 12 anos de garantia","Menos substituições"],
+                ["Carga Rápida","18 min para 100%","Autonomia de 14 dias"],
+                ["Segurança","Sem fogo sob perfuração","Garante segurança operacional"]
+            ],
+            cl:["USB Type-C 2A+","Anti-vibração para veículos","Paragem inteligente","LEDs de estado"],
+            ct:["FALE CONNOSCO","Pronto para elevar sua frota?","LeeWeiPOWER Co., Ltd."]
+        },
+        it: {
+            n:["Azienda","Prodotti","Video","Contatti"],
+            h:["ENERGIA INDUSTRIALE","Stabile. Risparmio. Efficienza."],
+            a:["Identità","Affidabilità nel DNA","Produciamo tranquillità, non solo batterie.","Dall'eccellenza di Taiwan, soluzioni per il massimo rendimento industriale."],
+            pt:["Soluzioni Elite","Batteria al Titanio BP3400A","La soluzione definitiva per telecomandi industriali.","Caricabatterie BC2435A","Semplice, robusto e instancabile."],
+            th:["Caratteristica","Descrizione","Beneficio"],
+            tb:[
+                ["Durata","Garanzia fino a 12 anni","Costi operativi ridotti"],
+                ["Ricarica","18 min per il 100%","Pronta per 14 giorni di lavoro"],
+                ["Sicurezza","Nessun fuoco se forata","Previene rischi in cantiere"]
+            ],
+            cl:["USB Type-C 2A+","Supporto antivibrazione","Stop ricarica intelligente","Stato LED chiaro"],
+            ct:["CONTATTACI","Efficienza al vostro servizio.","LeeWeiPOWER Co., Ltd."]
+        }
+    };
+
+    function applyLang(lang) {
+        const d = dictionary[lang] || dictionary.en;
+        
+        // 更新導覽與文字內容
+        for(let i=1; i<=4; i++) document.getElementById(`n-${i}`).innerText = d.n[i-1];
+        document.getElementById('h-1').innerText = d.h[0];
+        document.getElementById('h-2').innerText = d.h[1];
+        document.getElementById('a-t').innerText = d.a[0];
+        document.getElementById('a-h').innerText = d.a[1];
+        document.getElementById('a-p1').innerText = d.a[2];
+        document.getElementById('a-p2').innerText = d.a[3];
+        document.getElementById('p-t').innerText = d.pt[0];
+        document.getElementById('p1-n').innerText = d.pt[1];
+        document.getElementById('p1-d').innerText = d.pt[2];
+        document.getElementById('p2-n').innerText = d.pt[3];
+        document.getElementById('p2-d').innerText = d.pt[4];
+        for(let i=1; i<=3; i++) document.getElementById(`th-${i}`).innerText = d.th[i-1];
+
+        // 產品表格渲染 [cite: 12, 38]
+        let tableBody = "";
+        d.tb.forEach(row => {
+            tableBody += `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`;
+        });
+        document.getElementById('p1-tb').innerHTML = tableBody;
+
+        // 充電器列表渲染 [cite: 43-46]
+        let listItems = "";
+        d.cl.forEach(item => {
+            listItems += `<li>${item}</li>`;
+        });
+        document.getElementById('p2-l').innerHTML = listItems;
+
+        // 聯繫區
+        document.getElementById('c-t').innerText = d.ct[0];
+        document.getElementById('c-s').innerText = d.ct[1];
+        document.getElementById('c-n').innerHTML = `<strong>Company:</strong> ${d.ct[2]}`;
+    }
+
+    // 初始化與動態觀察
+    window.onload = () => applyLang('en');
+    const obs = new IntersectionObserver((es) => {
+        es.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+    }, {threshold: 0.1});
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
